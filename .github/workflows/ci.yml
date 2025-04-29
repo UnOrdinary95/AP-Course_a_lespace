@@ -4,18 +4,30 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  hello-world:
+  test-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+
       - name: Install axe-core-cli
         run: npm install -g @axe-core/cli
+
       - name: Run axe accessibility tests
         run: axe unordinary95.github.io/AP-Course_a_lespace/ --exit
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
