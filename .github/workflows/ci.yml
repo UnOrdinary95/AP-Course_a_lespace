@@ -11,6 +11,10 @@ on:
 jobs:
   test-and-deploy:
     runs-on: ubuntu-latest
+    # Ajouter ces permissions explicites
+    permissions:
+      contents: write
+      pages: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -27,7 +31,7 @@ jobs:
         run: axe unordinary95.github.io/AP-Course_a_lespace/ --exit
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+        uses: peaceiris/actions-gh-pages@v3 #v3 au lieu de v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./
